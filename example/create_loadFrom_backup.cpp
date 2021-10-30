@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "../AuronDB/AuronDB"
 
 int main() {
@@ -11,8 +12,10 @@ int main() {
 
     AuronDB* db2 = new AuronDB;
     auto fl2 = db2->loadFromBackup("./backup.arn");
-    if (fl2)
-        std::cout << db2->getValue("key2") << "\n";
+    std::string value;
+    Status op = db2->getValue("key2", value);
+    if (op.ok())
+        std::cout << value << "\n";
     else
         std::cout << "error load from backup\n";
     delete db2;

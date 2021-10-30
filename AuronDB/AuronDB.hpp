@@ -8,6 +8,19 @@
 #include <fstream>
 #include "c_plus_plus_serializer.h"
 
+class Status {
+private:
+    bool okey = false;
+
+public:
+    Status(bool _ok) { okey = _ok; };
+    ~Status() {};
+
+    bool ok() {
+        return okey;
+    }
+};
+
 class AuronDB {
 private:
     std::map<std::string, std::string> mp;
@@ -24,8 +37,18 @@ public:
         return mp.count(key);
     }
 
-    std::string getValue(std::string key) {
-        return isExists(key) ? mp[key] : "";
+    Status getValue(std::string key, std::string& value) {
+        if (isExists(key))
+        {
+            value = mp[key];
+            Status status(true);
+            return status;
+        }
+        else
+        {
+            Status status(false);
+            return status;
+        }
     }
 
     bool backup(std::string file) {
