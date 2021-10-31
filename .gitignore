@@ -1,0 +1,6 @@
+/coverage/report/
+/coverage/*.gcda
+/coverage/*.gcno
+/coverage/*.info
+/coverage/*.out
+/coverage/*.arn
