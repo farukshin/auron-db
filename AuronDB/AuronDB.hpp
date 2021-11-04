@@ -3,66 +3,78 @@
 
 #include <string>
 #include <map>
-//#include <filesystem>
 #include <iostream>
 #include <fstream>
 #include "c_plus_plus_serializer.h"
 
-class Status {
-private:
-    bool okey = false;
+namespace auron
+{
 
-public:
-    Status(bool _ok) { okey = _ok; };
-    ~Status() {};
+    class Status
+    {
+    private:
+        bool okey = false;
 
-    bool ok() {
-        return okey;
-    }
-};
+    public:
+        Status(bool _ok) { okey = _ok; };
+        ~Status(){};
 
-class AuronDB {
-private:
-    std::map<std::string, std::string> mp;
-
-public:
-    AuronDB() {}
-    ~AuronDB() {}
-
-    void insert(std::string key, std::string value) {
-        mp[key] = value;
-    }
-
-    bool isExists(std::string key) {
-        return mp.count(key);
-    }
-
-    Status getValue(std::string key, std::string& value) {
-        if (isExists(key))
+        bool ok()
         {
-            value = mp[key];
-            Status status(true);
-            return status;
+            return okey;
         }
-        else
+    };
+
+    class AuronDB
+    {
+    private:
+        std::map<std::string, std::string> mp;
+
+    public:
+        AuronDB() {}
+        ~AuronDB() {}
+
+        void insert(std::string key, std::string value)
         {
-            Status status(false);
-            return status;
+            mp[key] = value;
         }
-    }
 
-    bool backup(std::string file) {
-        std::ofstream out(file, std::ios::binary | std::ios::out);
-        out << bits(mp);
-        return true;
-    }
+        bool isExists(std::string key)
+        {
+            return mp.count(key);
+        }
 
-    bool loadFromBackup(std::string file) {
-        std::ifstream in(file, std::ios::binary | std::ios::in);
-        mp.clear();
-        in >> bits(mp);
-        return true;
-    }
-};
+        Status getValue(std::string key, std::string &value)
+        {
+            if (isExists(key))
+            {
+                value = mp[key];
+                Status status(true);
+                return status;
+            }
+            else
+            {
+                Status status(false);
+                return status;
+            }
+        }
 
-#endif
+        bool backup(std::string file)
+        {
+            std::ofstream out(file, std::ios::binary | std::ios::out);
+            out << bits(mp);
+            return true;
+        }
+
+        bool loadFromBackup(std::string file)
+        {
+            std::ifstream in(file, std::ios::binary | std::ios::in);
+            mp.clear();
+            in >> bits(mp);
+            return true;
+        }
+    };
+
+} // namespace auron
+
+#endif // AURONDB_HPP

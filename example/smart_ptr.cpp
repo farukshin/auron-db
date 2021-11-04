@@ -3,13 +3,14 @@
 #include <string>
 #include "../AuronDB/AuronDB"
 
-int main() {
-    auto dbptr = std::make_unique<AuronDB>();
+int main()
+{
+    auto dbptr = std::make_unique<auron::AuronDB>();
     dbptr->insert("key1", "abc");
     dbptr->insert("key2", "def");
 
     std::string value;
-    Status s = dbptr->getValue("key1", value);
+    auron::Status s = dbptr->getValue("key1", value);
     if (s.ok())
         std::cout << value << "\n";
 

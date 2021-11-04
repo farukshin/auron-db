@@ -1,24 +1,26 @@
 #include <iostream>
 #include <string>
+#include <cassert>
 #include "../AuronDB/AuronDB"
 
 int main()
 {
-    AuronDB *db = new AuronDB;
+    auron::AuronDB *db = new auron::AuronDB;
     db->insert("key1", "abc");
     db->insert("key2", "def");
     db->insert("key3", "azx");
-    auto fl = db->backup("./backup.arn");
+    bool res = db->backup("./backup.arn");
+    assert(res);
     delete db;
 
-    AuronDB *db2 = new AuronDB;
-    auto fl2 = db2->loadFromBackup("./backup.arn");
+    auron::AuronDB *db2 = new auron::AuronDB;
+    bool res2 = db2->loadFromBackup("./backup.arn");
+    assert(res2);
     std::string value;
-    Status op = db2->getValue("key2", value);
-    if (op.ok())
-        std::cout << value << "\n";
-    else
-        std::cout << "error load from backup\n";
+    auron::Status op = db2->getValue("key2", value);
+    assert(op.ok());
+    std::cout << value << "\n";
+
     delete db2;
 
     return 0;
