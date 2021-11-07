@@ -6,22 +6,46 @@
 #include <iostream>
 #include <fstream>
 #include "c_plus_plus_serializer.h"
+#include "Transaction.h"
 
 namespace auron
 {
-
     class Status
     {
     private:
         bool okey = false;
+        long long bit = 0;
+
+        void set_bit(long long &num, unsigned int pos)
+        {
+            num |= 1 << pos;
+        }
+
+        enum StatusParam
+        {
+            NotFound = 1
+        };
 
     public:
-        Status(bool _ok) { okey = _ok; };
+        Status(bool _ok)
+        {
+            okey = _ok;
+        };
         ~Status(){};
 
         bool ok()
         {
             return okey;
+        }
+
+        bool isNotFound()
+        {
+            return bit & (1LL << StatusParam::NotFound);
+        }
+
+        void setIsNotFound()
+        {
+            set_bit(bit, StatusParam::NotFound);
         }
     };
 
@@ -34,9 +58,10 @@ namespace auron
         AuronDB() {}
         ~AuronDB() {}
 
-        void insert(std::string key, std::string value)
+        Status insert(std::string key, std::string value)
         {
             mp[key] = value;
+            Status status(true);
         }
 
         bool isExists(std::string key)
@@ -72,6 +97,11 @@ namespace auron
             mp.clear();
             in >> bits(mp);
             return true;
+        }
+
+        Transaction *BeginTransaction()
+        {
+            ;
         }
     };
 

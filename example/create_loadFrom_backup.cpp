@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "../AuronDB/AuronDB"
+#include "../AuronDB/AuronDB.h"
 
 int main()
 {
