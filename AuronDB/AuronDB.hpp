@@ -6,7 +6,6 @@
 #include <iostream>
 #include <fstream>
 #include "c_plus_plus_serializer.h"
-#include "Transaction.h"
 
 namespace auron
 {
@@ -58,10 +57,16 @@ namespace auron
         AuronDB() {}
         ~AuronDB() {}
 
+        Status open(std::string path)
+        {
+            ;
+        }
+
         Status insert(std::string key, std::string value)
         {
             mp[key] = value;
             Status status(true);
+            return status;
         }
 
         bool isExists(std::string key)
@@ -97,11 +102,6 @@ namespace auron
             mp.clear();
             in >> bits(mp);
             return true;
-        }
-
-        Transaction *BeginTransaction()
-        {
-            ;
         }
     };
 
