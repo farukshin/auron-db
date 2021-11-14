@@ -5,6 +5,7 @@
 #include <map>
 #include <iostream>
 #include <fstream>
+#include "Internal.hpp"
 #include "c_plus_plus_serializer.h"
 
 namespace auron
@@ -72,6 +73,11 @@ namespace auron
         bool isExists(std::string key)
         {
             return mp.count(key);
+        }
+
+        void setKV(std::string _key, std::string _val)
+        {
+            mp[_key] = _val;
         }
 
         Status getValue(std::string key, std::string &value)
