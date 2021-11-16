@@ -1,23 +1,20 @@
 #include <iostream>
 #include <string>
+#include <cassert>
 #include "../AuronDB/AuronDB.h"
 
 int main()
 {
     auron::AuronDB db;
+    std::string value;
+
     db.insert("key1", "abc");
 
-    std::string value;
     auron::Status s = db.getValue("key1", value);
-    if (s.ok())
-        std::cout << value << "\n";
+    assert(s.ok() && value == "abc");
 
     s = db.getValue("key333", value);
-    if (s.ok())
-        std::cout << value << "\n";
-    else
-        std::cout << "key 'key333' is not exists"
-                  << "\n";
+    assert(!s.ok() && s.isNotFound());
 
     return 0;
 }

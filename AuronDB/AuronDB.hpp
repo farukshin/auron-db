@@ -91,6 +91,7 @@ namespace auron
             else
             {
                 Status status(false);
+                status.setIsNotFound();
                 return status;
             }
         }

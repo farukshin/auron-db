@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <cassert>
 #include "../AuronDB/AuronDB.h"
 
 int main()
@@ -11,8 +12,7 @@ int main()
 
     std::string value;
     auron::Status s = dbptr->getValue("key1", value);
-    if (s.ok())
-        std::cout << value << "\n";
+    assert(s.ok() && value == "abc");
 
     return 0;
 }
